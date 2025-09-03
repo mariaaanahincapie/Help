@@ -72,11 +72,11 @@
                 <p>Solicitudes pendientes: {{ stats.pending }}</p>
                 <!-- ...otros datos... -->
             </div>
-            <a href="{% url 'dashboard' %}" class="btn">Ver mis solicitudes</a>
+            <a href="{% url 'seeker_dashboard' %}" class="btn">Ver mis solicitudes</a>
             <form method="post" enctype="multipart/form-data" style="margin-top:24px;">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Editar perfil</button>
+                <button type="submit">Guardar edición</button>
             </form>
         {% endif %}
     </div>

@@ -18,13 +18,10 @@ def service_search_view(request):
     
     # Inicializar la lista de proveedores
     providers = ServiceProvider.objects.all()
-    query = None
-    category = None
-   
-    # Procesar la búsqueda por palabra clave
-    if 'query' in request.GET:
-        query = request.GET['query']
-        # Buscar en los campos del modelo que coincidan con la palabra clave
+    query = request.GET.get('query', None)
+    category = request.GET.get('category', None)
+
+    if query:
         providers = providers.filter(
             Q(service_info__icontains=query) |
             Q(profession__icontains=query) |
@@ -32,10 +29,7 @@ def service_search_view(request):
             Q(services__name__icontains=query)
         ).distinct()
 
-    # Procesar el filtro por categoría
-    if 'category' in request.GET and request.GET['category']:
-        category = request.GET['category']
-        # Asumiendo una relación ManyToMany entre ServiceProvider y ServiceCategory
+    if category:
         providers = providers.filter(services__category__name=category).distinct()
 
     context = {
@@ -93,7 +87,8 @@ def provider_profile(request):
         form = ServiceProviderForm(request.POST, request.FILES, instance=provider)
         if form.is_valid():
             form.save()
-            return redirect('home')  # Cambia 'home' por el nombre de tu página principal
+            # Permanecer en la misma página después de guardar
+            return redirect('provider_profile')
     else:
         form = ServiceProviderForm(instance=provider)
     return render(request, 'provider_profile.html', {'form': form, 'provider': provider})

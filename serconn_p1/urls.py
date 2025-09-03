@@ -35,7 +35,7 @@ urlpatterns = [
     path('service/confirm/<int:pk>/', confirm_service, name='confirm_service'),
     path('provider/profile/', provider_profile, name='provider_profile'),
     path('register/', register, name='register'),
-    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),  # Redirige a la raíz
 ]
 
 urlpatterns += [
