@@ -22,12 +22,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from serconn_app import views as appViews
+from serconn_app.views import seeker_dashboard, confirm_service
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", appViews.service_search_view, name="service_search"),
     path("provider/<int:provider_id>/", appViews.provider_detail_view, name="provider_detail"),
-
+    path('dashboard/', seeker_dashboard, name='seeker_dashboard'),
+    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
+    path('service/confirm/<int:pk>/', confirm_service, name='confirm_service'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
